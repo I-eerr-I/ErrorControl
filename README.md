@@ -1,4 +1,4 @@
-[GF doc](GFDoc)
+[GF doc](GFDoc.md)
 
 # Galois Field ralization
 + [Поля Галуа Wiki](https://ru.wikipedia.org/wiki/%D0%9A%D0%BE%D0%BD%D0%B5%D1%87%D0%BD%D0%BE%D0%B5_%D0%BF%D0%BE%D0%BB%D0%B5)
