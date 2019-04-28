@@ -44,4 +44,24 @@ GF class has 4 methods to build field, that are not very usefull for simple work
 13. gf.subs_value(DPoly([0,1]), 1) # DPoly([1]) = x = f(x), subs_value(f(x), 1) => f(gf(1)) = f(eps^1) = eps^1
 14. gf.subs_value(DPoly([0,1,1]), 2) # DPoly([0,1,1]) = x+x^2 = h(x), subs_value(h(x), 2) => h(gf(2)) = h(eps^2) = eps^2 + eps^4
 ```
+=============================================
+### GFEps class
+is the realization of Galois field elements' logic. It contains methods to add, multiply, divide and etc elements of GF. It also has the method `to(eps)` to get the field element by which you need to multiply this element to get the desired:
+```
+15. gf(1).to(gf(12)) # returns gf(11) = eps^11, because eps^1 * eps^11 = eps^12
+16. gf(14).to(gf(3)) # returns gf(4)  = eps^4,  because eps^14 * eps^4 = eps^18 = eps^3 mod(2^4 - 1)
+```
+Use default operators to perform operations with elements of GF
 
+==============================================
+### DPoly class
+is the realization of binary polinomials to perform operations in second base. You can multiply polinomials with variables of any type.
+Use DPoly(poly_list) to create one (from lower to higher power). 
+**Create binary polinomial**
+```
+17. f_x = DPoly([1,0,gf(2), 1]) # f(x)  = 1 + eps^2 * x^2 + x^3
+18. g_x = DPoly([gf(1), gf(14)]) # g(x) = eps^1 + eps^14 * x
+19. g_x * f_x # = DPoly([gf(1), gf(14), gf(3), gf(14)]) = eps^1 + eps^14 * x + eps^3 * x^2 + eps^14 * x^3
+20. g_x + f_x # = DPoly([gf(4), gf(14), gf(2), 1]) = eps^4 + eps^14 * x + eps^2 * x^2 + x^3
+21. f_x / g_x # = [ DPoly([0,0,gf(1)]) - result, DPoly([1,0,0,0]) - reminder ] = [ eps^1 * x^2 - result, 1 - reminder ]
+```
