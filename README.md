@@ -9,3 +9,4 @@
 # Documentations for scripts:
 + **[GF.py docs](GFDoc.md)**
 + **[matrix.py docs](matrixDoc.md)**
++ **[NIAlgorithm.py docs](NIAlgorithmDoc.md)**
