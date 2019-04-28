@@ -3,7 +3,6 @@
 ### Berlekamp–Massey algorithm | Алгоритм Берлекэмпа-Мэсси для решения ключевого уравнения
 + [Wiki](https://en.wikipedia.org/wiki/Berlekamp%E2%80%93Massey_algorithm)
 + [Вики](https://ru.wikipedia.org/wiki/%D0%90%D0%BB%D0%B3%D0%BE%D1%80%D0%B8%D1%82%D0%BC_%D0%91%D0%B5%D1%80%D0%BB%D0%B5%D0%BA%D1%8D%D0%BC%D0%BF%D0%B0_%E2%80%94_%D0%9C%D1%8D%D1%81%D1%81%D0%B8)
-+
 
 ```
 BMA(S, t, eps_0, debug = False)
