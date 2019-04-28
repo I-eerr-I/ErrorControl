@@ -1,4 +1,4 @@
-# GF
+# Galois Field ralization
 
 This script includes three classes: **GF, GFEps, DPoly.**
 ---
