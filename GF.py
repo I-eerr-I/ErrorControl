@@ -323,7 +323,7 @@ class GFEps:
 
     def __pow__(self, power):
         power *= self.power
-        power %= self.deg**2 - 1
+        power %= 2**self.deg - 1
         return self.field(power)
 
     def __eq__(self, other):

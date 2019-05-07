@@ -100,6 +100,55 @@ def EuA(S, t, debug = False, return_data = False):
         return (data, b[j])
     return b[j]
 
+def EuA2(S, t, debug = False):
+    S_x = DPoly([1]+[S[i] for i in S])
+    r = {0: DPoly(2*t+1), 1: S_x}
+    b = {0: 0, 1: 1}
+    a = {0: 1, 1: 0}
+    q = {}
+    j = 1
+    if debug:
+        print("Начальные значения:")
+        print("S(x) =", S_x)
+        print("r0 =", r[0])
+        print("r1 =", r[1])
+        print("b0 =", b[0])
+        print("b1 =", b[1])
+        print("a0 =", a[0])
+        print("a1 =", a[1])
+        print("j  =", j)
+    while r[j].deg > t:
+        j += 1
+        q[j], r[j] = r[j-2]/r[j-1]
+        a[j] = a[j-2] + q[j]*a[j-1]
+        b[j] = b[j-2] + q[j]*b[j-1]
+        if debug:
+            print("Итерация номер", j)
+            print("Делим r"+str(j-2)+" на r"+str(j-1))
+            print("r"+str(j-2)+" = q"+str(j)+"*r"+str(j-1)+" + r"+str(j))
+            print("r"+str(j-2)+" = ("+str(q[j])+")*("+str(r[j-1])+") + ("+str(r[j]))
+            print("r"+str(j)+" = "+str(r[j]))
+            print("q"+str(j)+" = "+str(q[j]))
+            print("Находим a"+str(j)+" = a"+str(j-2)+" + q"+str(j)+"*a"+str(j-1))
+            print("a"+str(j)+" = "+str(a[j]))
+            print("Находим b"+str(j)+" = b"+str(j-2)+" + q"+str(j)+"*b"+str(j-1))
+            print("b"+str(j)+" = "+str(b[j]))
+    Omega  = r[j]
+    Lambda = b[j]
+    if debug:
+        print("Так как deg(r"+str(j)+") <= t = "+str(t)+" - заканчиваем алгоритм")
+        print("Omega  = r"+str(j)+" = "+str(r[j]))
+        print("Lambda = b"+str(j)+" = "+str(b[j]))
+    if Omega[0] != 1:
+        Omega = (Omega/Omega[0])[0]
+    if Lambda[0] != 1:
+        Lambda = (Lambda/Lambda[0])[0]
+    if debug:
+        print("Приводим многочлены в необходимому виду:")
+        print("Lambda = "+str(Lambda))
+        print("Omega  = "+str(Omega))
+    return (Lambda, Omega)
+
 #Chen algorithm to find roots of error locator polynom
 def ChenA(Lambda, field, debug = False):
     roots = []
@@ -257,9 +306,9 @@ def BMA2(S, t, debug = True):
         print("ro =", ro)
         print("i =", i)
         print("l =", l)
-    while i < 2*t - 1:
+    while i < 2*t + 1:
         i += 1
-        if i >= 2*t - 1:
+        if i >= 2*t + 1:
             break
         if debug:
             print("Увеличиваем i на единицу => i =", i)
@@ -347,7 +396,7 @@ def find_syndromes(poly, field, l):
     print(S)
     return S
 
-def ForniA(roots, Omega, Lambda, t, b, debug = False):
+def ForniA(roots, Omega, Lambda, t, debug = False):
     dLambda = Lambda.der()
     if debug:
         print("Находим производную Lambda(x)")
@@ -360,6 +409,23 @@ def ForniA(roots, Omega, Lambda, t, b, debug = False):
             print("Рассчитываем Omega(Xi^-1)/Lambda'(Xi^-1):")
             print("Omega("+str(root**-1)+")/Lambda'("+str(root**-1)+") = "+str(value))
     return errors
+
+def ForniA2(roots, Omega, Lambda, t, b, debug = False):
+    dLambda = Lambda.der()
+    if debug:
+        print("Находим производную Lambda(x)")
+        print("Lambda'(x) =", dLambda)
+    errors = []
+    for root in roots:
+        value = (root**(1-b))*Omega(root**-1)*((dLambda(root**-1))**-1)
+        errors.append(value)
+        if debug:
+            print("Рассчитываем Xi**(1-b) * Omega(Xi^-1)/Lambda'(Xi^-1):")
+            print(Omega(root**-1))
+            print(dLambda(root**-1))
+            print(str(root**(1-b))+" * Omega("+str(root**-1)+")/Lambda'("+str(root**-1)+") = "+str(value))
+    return errors
+
 
 if __name__=="__main__":
     gf = GF([1,1,0,0,1])
