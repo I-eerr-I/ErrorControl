@@ -8,10 +8,11 @@ This script includes three classes: **GF, GFEps, DPoly.**
 *is realization of extended Galois Field on binary base - GF(2^m). Using GF(degree = m, polynomial = p(x)) you create new Galois field on binary base with the power "m" and generating polynomal - p(x), where p(x) is the list with 1 and 0 from lower to higher power. Your created G field will contain all elements of type GFEps, that you can multiply, divide, add and etc with each other. For example:*
 
 **Create G field**
+**Use just GF(m) to get field (it will automaticly find the p(x)**
 ```
 1. p_x = [1,1,0,0,1] # p(x) = 1+x+x^4
 2. m   = 4
-3. gf  = GF(m, p_x)
+3. gf  = GF(m)
 ```
 
 Now you can access all elements by calling gf with the power of elements you want to get:
@@ -40,12 +41,6 @@ GF class has 4 methods to build field, that are not very usefull for simple work
 12. gf.power_of([0,1,0,0]) # return is 1
 ```
 
-**subs_value(poly, val_power) - substitude the element of power val_power in the polinomial poly** 
-*the poly should be with type of DPoly*
-```
-13. gf.subs_value(DPoly([0,1]), 1) # DPoly([1]) = x = f(x), subs_value(f(x), 1) => f(gf(1)) = f(eps^1) = eps^1
-14. gf.subs_value(DPoly([0,1,1]), 2) # DPoly([0,1,1]) = x+x^2 = h(x), subs_value(h(x), 2) => h(gf(2)) = h(eps^2) = eps^2 + eps^4
-```
 =============================================
 ### GFEps class
 is the realization of Galois field elements' logic. It contains methods to add, multiply, divide and etc elements of GF. It also has the method `to(eps)` to get the field element by which you need to multiply this element to get the desired:
@@ -66,4 +61,10 @@ Use DPoly(poly_list) to create one (from lower to higher power).
 19. g_x * f_x # = DPoly([gf(1), gf(14), gf(3), gf(14)]) = eps^1 + eps^14 * x + eps^3 * x^2 + eps^14 * x^3
 20. g_x + f_x # = DPoly([gf(4), gf(14), gf(2), 1]) = eps^4 + eps^14 * x + eps^2 * x^2 + x^3
 21. f_x / g_x # = [ DPoly([0,0,gf(1)]) - result, DPoly([1,0,0,0]) - reminder ] = [ eps^1 * x^2 - result, 1 - reminder ]
+```
+
+**Use f_x(value) to substitude value in polynome**
+```
+22. f_x(gf(0)) # returns 1 + eps^2 * 1 + 1 = eps^2
+23. f_x(0) # returns 1 + eps^2 * 0 + 1 = 0
 ```
