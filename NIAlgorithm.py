@@ -286,6 +286,19 @@ def BMA(S, t, eps_0, debug = False, return_data = False):
                 break
             if debug:
                 print("Так как r != 2*t продолжаем итерацию")
+
+        if debug:
+                print("\nВывод значений для записи в таблицу")
+                for d in data:
+                    if d == "r":
+                        print("r", "\t\t:\t", str(r))
+                    else:
+                        try:
+                            print(d, "\t\t:\t", str(data[d][r]))
+                        except KeyError:
+                            print(d, "\t\t:\t---")
+                print("\n\n")
+
         if return_data:
             return (data, data["Lambda"][len(data["Lambda"])-1])
         return data["Lambda"][len(data["Lambda"])-1]
