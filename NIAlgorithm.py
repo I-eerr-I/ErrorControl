@@ -152,7 +152,7 @@ def EuA2(S, t, debug = False):
 #Chen algorithm to find roots of error locator polynom
 def ChenA(Lambda, field, debug = False):
     roots = []
-    for i in range(1, len(field.field)):
+    for i in range(0, len(field.field)):
         res = Lambda(field(-i))
         if debug:
            print("Возьмём степень ", i)
